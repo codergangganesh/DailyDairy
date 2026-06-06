@@ -1,0 +1,221 @@
+/* Import Premium Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=Dosis:wght@400;600&display=swap');
+
+@import "tailwindcss";
+
+
+:root {
+  /* Default/Classic Theme variables */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Lora', Georgia, serif;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-handwriting: 'Caveat', cursive;
+
+  /* Classic Theme Variables (Warm Sepia Diary) */
+  --bg-app: #f2ebd9;
+  --bg-cover: #5c3a21;
+  --bg-cover-border: #422816;
+  --bg-paper: #fcfaf2;
+  --bg-paper-back: #f5eedc;
+  --color-text: #2c251e;
+  --color-text-muted: #6b5c4f;
+  --color-lines: rgba(92, 58, 33, 0.08);
+  --color-margin-line: rgba(220, 100, 100, 0.4);
+  --color-accent: #8b5a2b;
+  --color-accent-hover: #5c3a21;
+  --color-bookmark: #c2593f;
+  --shadow-book: 0 20px 40px rgba(0, 0, 0, 0.2);
+  --notebook-binding: linear-gradient(to right, rgba(0,0,0,0.15) 0%, rgba(255,255,255,0.1) 8%, rgba(255,255,255,0.2) 15%, rgba(0,0,0,0.01) 18%, rgba(0,0,0,0.2) 20%, rgba(255,255,255,0.15) 23%, rgba(0,0,0,0.1) 33%, rgba(0,0,0,0.25) 45%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.25) 55%, rgba(0,0,0,0.1) 67%, rgba(255,255,255,0.15) 77%, rgba(0,0,0,0.2) 80%, rgba(0,0,0,0.01) 82%, rgba(255,255,255,0.2) 85%, rgba(255,255,255,0.1) 92%, rgba(0,0,0,0.15) 100%);
+}
+
+/* --- THEME OVERRIDES --- */
+
+/* 2. Dark Mode Theme (Deep Cosmic Shadow) */
+.theme-dark {
+  --bg-app: #0f1115;
+  --bg-cover: #1a1e26;
+  --bg-cover-border: #0d0f13;
+  --bg-paper: #1c212c;
+  --bg-paper-back: #181d27;
+  --color-text: #e2e8f0;
+  --color-text-muted: #94a3b8;
+  --color-lines: rgba(255, 255, 255, 0.05);
+  --color-margin-line: rgba(168, 85, 247, 0.3);
+  --color-accent: #a855f7;
+  --color-accent-hover: #c084fc;
+  --color-bookmark: #ec4899;
+  --shadow-book: 0 20px 40px rgba(0, 0, 0, 0.5);
+  --notebook-binding: linear-gradient(to right, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0.3) 20%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.3) 80%, rgba(255,255,255,0.02) 100%);
+}
+
+/* 3. Vintage Journal Theme (Aged Mahogany Parchment) */
+.theme-vintage {
+  --bg-app: #dfd2b5;
+  --bg-cover: #3d1414;
+  --bg-cover-border: #240a0a;
+  --bg-paper: #f0e6cb;
+  --bg-paper-back: #e8dbba;
+  --color-text: #211c14;
+  --color-text-muted: #5e5445;
+  --color-lines: rgba(141, 110, 99, 0.12);
+  --color-margin-line: rgba(183, 28, 28, 0.35);
+  --color-accent: #b8860b;
+  --color-accent-hover: #996515;
+  --color-bookmark: #800000;
+  --shadow-book: 0 25px 50px rgba(0, 0, 0, 0.25);
+  --notebook-binding: linear-gradient(to right, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0.05) 15%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.01) 48%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.01) 52%, rgba(0,0,0,0.3) 75%, rgba(255,255,255,0.05) 85%, rgba(0,0,0,0.2) 100%);
+}
+
+/* 4. Dream Theme (Midnight Violet Stars) */
+.theme-dream {
+  --bg-app: #120e2e;
+  --bg-cover: #1c1445;
+  --bg-cover-border: #0e0a24;
+  --bg-paper: #281e59;
+  --bg-paper-back: #21184a;
+  --color-text: #f1f0fb;
+  --color-text-muted: #9c92cc;
+  --color-lines: rgba(139, 92, 246, 0.08);
+  --color-margin-line: rgba(236, 72, 153, 0.3);
+  --color-accent: #ec4899;
+  --color-accent-hover: #f472b6;
+  --color-bookmark: #a855f7;
+  --shadow-book: 0 20px 45px rgba(139, 92, 246, 0.2);
+  --notebook-binding: linear-gradient(to right, rgba(139,92,246,0.1) 0%, rgba(0,0,0,0.4) 20%, rgba(255,255,255,0.1) 50%, rgba(0,0,0,0.4) 80%, rgba(139,92,246,0.1) 100%);
+}
+
+/* 5. Minimal Theme (Modern Grid White) */
+.theme-minimal {
+  --bg-app: #f3f4f6;
+  --bg-cover: #ffffff;
+  --bg-cover-border: #e5e7eb;
+  --bg-paper: #ffffff;
+  --bg-paper-back: #fafafa;
+  --color-text: #111827;
+  --color-text-muted: #6b7280;
+  --color-lines: rgba(0, 0, 0, 0.04);
+  --color-margin-line: rgba(107, 114, 128, 0.2);
+  --color-accent: #000000;
+  --color-accent-hover: #374151;
+  --color-bookmark: #dc2626;
+  --shadow-book: 0 10px 30px rgba(0, 0, 0, 0.05);
+  --notebook-binding: linear-gradient(to right, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.05) 100%);
+}
+
+/* --- BASE STYLES --- */
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--bg-app);
+  color: var(--color-text);
+  transition: background-color 0.4s ease, color 0.4s ease;
+  overflow-x: hidden;
+}
+
+/* Handwritten Font Support */
+.font-handwritten .handwriting-target {
+  font-family: var(--font-handwriting) !important;
+  font-size: 1.45rem !important;
+  line-height: 1.8rem !important;
+}
+
+.font-handwritten h2, 
+.font-handwritten h3 {
+  font-family: var(--font-serif);
+}
+
+/* --- NOTEBOOK RENDERING STYLES --- */
+
+/* Lined Notebook Paper styling */
+.notebook-paper {
+  background-color: var(--bg-paper);
+  background-size: 100% 28px;
+  /* Lined effect */
+  background-image: linear-gradient(var(--color-lines) 1px, transparent 1px);
+  background-attachment: local;
+  line-height: 28px !important;
+  padding-left: 55px; /* Margin margin spacing */
+  position: relative;
+}
+
+.notebook-paper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 45px;
+  width: 1px;
+  height: 100%;
+  background-color: var(--color-margin-line);
+  z-index: 10;
+}
+
+/* Grid Notebook Paper for Minimal Theme */
+.theme-minimal .notebook-paper {
+  background-size: 24px 24px;
+  background-image: linear-gradient(var(--color-lines) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--color-lines) 1px, transparent 1px);
+  padding-left: 20px;
+}
+.theme-minimal .notebook-paper::before {
+  display: none;
+}
+
+/* Binder shadow details */
+.binder-spine {
+  background: var(--notebook-binding);
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-text-muted);
+  opacity: 0.3;
+  border-radius: 10px;
+}
+
+/* Page flip transition animations */
+.page-flip-container {
+  perspective: 1500px;
+  position: relative;
+}
+
+.page-sheet {
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transform-origin: left center;
+}
+
+.page-sheet.turned {
+  transform: rotateY(-180deg);
+}
+
+.page-face {
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.page-face-back {
+  transform: rotateY(180deg);
+  background-color: var(--bg-paper-back);
+}
+
+/* Confetti styling fix */
+#canvas-confetti {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+}

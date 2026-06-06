@@ -1,0 +1,82 @@
+{
+  "name": "DreamVault — Secure Diary",
+  "short_name": "DreamVault",
+  "description": "Your private encrypted digital diary. Write, record voice memos, track moods, and attach photos — protected by AES-256-GCM end-to-end encryption.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "background_color": "#f2ebd9",
+  "theme_color": "#5c3a21",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "categories": ["lifestyle", "productivity", "utilities"],
+  "prefer_related_applications": false,
+
+  "icons": [
+    {
+      "src": "/logo.png",
+      "type": "image/png",
+      "sizes": "192x192 512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.png",
+      "type": "image/png",
+      "sizes": "192x192 512x512",
+      "purpose": "maskable"
+    }
+  ],
+
+  "screenshots": [
+    {
+      "src": "https://api.dicebear.com/7.x/shapes/svg?seed=dreamvault-wide&backgroundColor=f2ebd9",
+      "sizes": "1280x720",
+      "type": "image/svg+xml",
+      "form_factor": "wide",
+      "label": "DreamVault Journal View"
+    },
+    {
+      "src": "https://api.dicebear.com/7.x/shapes/svg?seed=dreamvault-narrow&backgroundColor=f2ebd9",
+      "sizes": "390x844",
+      "type": "image/svg+xml",
+      "form_factor": "narrow",
+      "label": "DreamVault on Mobile"
+    }
+  ],
+
+  "shortcuts": [
+    {
+      "name": "New Entry",
+      "short_name": "New Entry",
+      "description": "Open DreamVault and start a new diary page",
+      "url": "/?action=new-entry",
+      "icons": [
+        {
+          "src": "https://api.dicebear.com/7.x/initials/svg?seed=NE&backgroundColor=8b5a2b",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Mood Log",
+      "short_name": "Mood",
+      "description": "Jump straight to mood tracking",
+      "url": "/?action=mood",
+      "icons": [
+        {
+          "src": "https://api.dicebear.com/7.x/initials/svg?seed=ML&backgroundColor=c2593f",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ],
+
+  "related_applications": [],
+
+  "edge_side_panel": {
+    "preferred_width": 480
+  }
+}
