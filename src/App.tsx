@@ -16,6 +16,15 @@ const MainAppContent: React.FC = () => {
     return window.location.pathname === '/' || window.location.pathname === '';
   });
 
+  // When user signs out (user goes from truthy → null), redirect back to landing page
+  const prevUserRef = React.useRef(user);
+  useEffect(() => {
+    if (prevUserRef.current !== null && user === null && !isLoading) {
+      setShowLanding(true);
+    }
+    prevUserRef.current = user;
+  }, [user, isLoading]);
+
   // Monitor location changes for custom routing
   useEffect(() => {
     const handleLocationChange = () => {
