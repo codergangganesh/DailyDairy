@@ -109,12 +109,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Listen to Auth State Changes
     let authListener: any = null;
     if (isSupabaseConfigured && supabase) {
-      const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, sbSession) => {
+      const sbClient = supabase;
+      const { data: { subscription } } = sbClient.auth.onAuthStateChange(async (event, sbSession) => {
         if (event === 'SIGNED_IN' && sbSession) {
           const profile = await dbService.getProfile(sbSession.user.id);
           if (profile) {
             if (profile.suspended) {
-              await supabase.auth.signOut();
+              await sbClient.auth.signOut();
             } else {
               const sess: UserSession = {
                 id: sbSession.user.id,

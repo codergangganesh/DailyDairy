@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Mail, Lock, User, Feather, ArrowRight, Shield } from 'lucide-react';
+import { Mail, Lock, User, ArrowRight, Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 

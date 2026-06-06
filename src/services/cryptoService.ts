@@ -35,44 +35,38 @@ export async function deriveKeyFromPassword(
   iterations: number = 100000
 ): Promise<CryptoKey> {
   const passwordBytes = stringToBytes(password);
-  
-  // Import the raw password as a key-producing material
+
+  // Import the raw password as key-producing material
   const baseKey = await window.crypto.subtle.importKey(
     'raw',
-    passwordBytes,
+    passwordBytes.buffer as ArrayBuffer,
     'PBKDF2',
     false,
     ['deriveKey']
   );
-  
+
   // Derive the AES-GCM key
-  return await window.crypto.subtle.deriveKey(
+  return window.crypto.subtle.deriveKey(
     {
       name: 'PBKDF2',
-      salt: salt,
-      iterations: iterations,
+      salt: salt.buffer as ArrayBuffer,
+      iterations,
       hash: 'SHA-256',
     },
     baseKey,
-    {
-      name: 'AES-GCM',
-      length: 256,
-    },
-    true, // extractable
+    { name: 'AES-GCM', length: 256 },
+    true,
     ['encrypt', 'decrypt']
   );
 }
 
 // Generate a random 256-bit symmetric Master Key for entries
 export async function generateMasterKey(): Promise<CryptoKey> {
-  return await window.crypto.subtle.generateKey(
-    {
-      name: 'AES-GCM',
-      length: 256,
-    },
-    true, // extractable
+  return window.crypto.subtle.generateKey(
+    { name: 'AES-GCM', length: 256 },
+    true,
     ['encrypt', 'decrypt']
-  );
+  ) as Promise<CryptoKey>;
 }
 
 // Export a CryptoKey to a Base64 string
@@ -84,9 +78,9 @@ export async function exportKeyToBase64(key: CryptoKey): Promise<string> {
 // Import a CryptoKey from a Base64 string
 export async function importKeyFromBase64(base64Key: string): Promise<CryptoKey> {
   const keyBytes = base64ToBytes(base64Key);
-  return await window.crypto.subtle.importKey(
+  return window.crypto.subtle.importKey(
     'raw',
-    keyBytes,
+    keyBytes.buffer as ArrayBuffer,
     'AES-GCM',
     true,
     ['encrypt', 'decrypt']
@@ -100,22 +94,17 @@ export async function encryptWithKey(
 ): Promise<{ ciphertext: string; iv: string; salt: string }> {
   const iv = generateRandomBytes(12); // GCM standard IV is 12 bytes
   const plaintextBytes = stringToBytes(plaintext);
-  
+
   const ciphertextBuffer = await window.crypto.subtle.encrypt(
-    {
-      name: 'AES-GCM',
-      iv: iv,
-    },
+    { name: 'AES-GCM', iv: iv.buffer as ArrayBuffer },
     key,
-    plaintextBytes
+    plaintextBytes.buffer as ArrayBuffer
   );
-  
-  const ciphertextBytes = new Uint8Array(ciphertextBuffer);
-  
+
   return {
-    ciphertext: bytesToBase64(ciphertextBytes),
+    ciphertext: bytesToBase64(new Uint8Array(ciphertextBuffer)),
     iv: bytesToBase64(iv),
-    salt: '', // Salt is not strictly required per encryption, but we can pass it if derived
+    salt: '',
   };
 }
 
@@ -127,27 +116,24 @@ export async function decryptWithKey(
 ): Promise<string> {
   const ciphertextBytes = base64ToBytes(ciphertext);
   const iv = base64ToBytes(ivBase64);
-  
+
   const plaintextBuffer = await window.crypto.subtle.decrypt(
-    {
-      name: 'AES-GCM',
-      iv: iv,
-    },
+    { name: 'AES-GCM', iv: iv.buffer as ArrayBuffer },
     key,
-    ciphertextBytes
+    ciphertextBytes.buffer as ArrayBuffer
   );
-  
+
   return bytesToString(new Uint8Array(plaintextBuffer));
 }
 
-// Hash a password/answer using PBKDF2 (for verifications in plaintext check)
+// Hash a password/answer using PBKDF2 (for verification)
 export async function hashPasswordForVerification(
   password: string,
   saltBase64: string
 ): Promise<string> {
   const salt = base64ToBytes(saltBase64);
-  const key = await deriveKeyFromPassword(password, salt, 50000); // 50k is fast but secure enough for verification
-  return await exportKeyToBase64(key);
+  const key = await deriveKeyFromPassword(password, salt, 50000);
+  return exportKeyToBase64(key);
 }
 
 // Encrypt the Master Key with a derived key (from password or recovery answer)
@@ -155,18 +141,15 @@ export async function wrapMasterKey(
   masterKey: CryptoKey,
   derivedKey: CryptoKey
 ): Promise<{ encryptedKey: string; iv: string }> {
-  const masterKeyBytes = await window.crypto.subtle.exportKey('raw', masterKey);
+  const masterKeyBuffer = await window.crypto.subtle.exportKey('raw', masterKey);
   const iv = generateRandomBytes(12);
-  
+
   const encryptedBuffer = await window.crypto.subtle.encrypt(
-    {
-      name: 'AES-GCM',
-      iv: iv,
-    },
+    { name: 'AES-GCM', iv: iv.buffer as ArrayBuffer },
     derivedKey,
-    masterKeyBytes
+    masterKeyBuffer
   );
-  
+
   return {
     encryptedKey: bytesToBase64(new Uint8Array(encryptedBuffer)),
     iv: bytesToBase64(iv),
@@ -181,17 +164,14 @@ export async function unwrapMasterKey(
 ): Promise<CryptoKey> {
   const encryptedKeyBytes = base64ToBytes(encryptedKeyBase64);
   const iv = base64ToBytes(ivBase64);
-  
+
   const decryptedBuffer = await window.crypto.subtle.decrypt(
-    {
-      name: 'AES-GCM',
-      iv: iv,
-    },
+    { name: 'AES-GCM', iv: iv.buffer as ArrayBuffer },
     derivedKey,
-    encryptedKeyBytes
+    encryptedKeyBytes.buffer as ArrayBuffer
   );
-  
-  return await window.crypto.subtle.importKey(
+
+  return window.crypto.subtle.importKey(
     'raw',
     decryptedBuffer,
     'AES-GCM',

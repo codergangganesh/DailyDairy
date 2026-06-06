@@ -13,7 +13,6 @@ import {
   Smile,
   Settings as SettingsIcon,
   LogOut,
-  Feather,
   Camera,
   User,
   ChevronDown,
