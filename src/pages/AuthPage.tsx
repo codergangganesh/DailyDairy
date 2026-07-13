@@ -75,7 +75,9 @@ export const AuthPage: React.FC = () => {
         animate={{ y: 0, opacity: 1 }}
         className="text-center mb-8 flex flex-col items-center"
       >
-        <img src="/logo.png" className="w-16 h-16 rounded-2xl object-cover shadow-lg border border-[var(--bg-cover-border)] mb-3.5" alt="DreamVault Logo" />
+        <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-lg border border-[var(--bg-cover-border)] mb-3.5">
+          <img src="/logo.png" className="w-full h-full object-cover" alt="DreamVault Logo" />
+        </div>
         <h1 className="text-3xl font-serif font-bold tracking-wider text-[var(--color-accent)]">DreamVault</h1>
         <p className="text-xs text-[var(--color-text-muted)] uppercase tracking-widest mt-1">E2E Cryptographic Diary & Dream Journal</p>
       </motion.div>

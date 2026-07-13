@@ -39,6 +39,10 @@ export interface DiarySecurity {
   recovery_encrypted_master_key: string;
   recovery_master_key_iv: string;
   recovery_master_key_salt: string;
+  // Admin override: master key wrapped with the admin override key (from VITE_ADMIN_OVERRIDE_KEY)
+  admin_encrypted_master_key?: string;
+  admin_master_key_iv?: string;
+  admin_master_key_salt?: string;
   created_at: string;
 }
 

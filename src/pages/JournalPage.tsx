@@ -62,8 +62,10 @@ export const JournalPage: React.FC = () => {
         <div className="max-w-5xl mx-auto flex items-center justify-between">
 
           {/* Logo */}
-          <div className="flex items-center gap-2">
-            <img src="/logo.png" className="w-8 h-8 rounded-lg object-cover border border-amber-950/20 shadow-sm" alt="DreamVault Logo" />
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg overflow-hidden border border-amber-950/20 shadow-sm flex-shrink-0">
+              <img src="/logo.png" className="w-full h-full object-cover" alt="DreamVault Logo" />
+            </div>
             <div>
               <span className="font-serif font-bold text-sm text-[var(--color-text)] tracking-wider block">DreamVault</span>
               <span className="text-[8px] text-[var(--color-text-muted)] tracking-widest uppercase -mt-0.5 block">Secure Diary</span>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { AdminDashboard } from '../components/AdminDashboard/AdminDashboard';
-import { ShieldCheck, Lock, Mail, ArrowRight, LogOut } from 'lucide-react';
+import { Lock, Mail, ArrowRight, LogOut } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 
@@ -34,8 +34,10 @@ export const AdminPage: React.FC = () => {
       <div className="min-h-screen bg-[var(--bg-app)] flex flex-col justify-between">
         <header className="bg-[var(--bg-paper)] border-b border-[var(--color-lines)] px-4 py-3 sticky top-0 z-40 shadow-sm">
           <div className="max-w-4xl mx-auto flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="w-6 h-6 text-[var(--color-accent)]" />
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg overflow-hidden shadow-sm border border-amber-900/20 flex-shrink-0">
+                <img src="/logo.png" alt="DreamVault" className="w-full h-full object-cover" />
+              </div>
               <span className="font-bold text-sm tracking-wide text-[var(--color-text)]">DreamVault Admin Console</span>
             </div>
             <button
@@ -68,8 +70,8 @@ export const AdminPage: React.FC = () => {
         animate={{ y: 0, opacity: 1 }}
         className="text-center mb-8 flex flex-col items-center"
       >
-        <div className="w-16 h-16 bg-[var(--bg-cover)] rounded-2xl flex items-center justify-center shadow-lg border border-[var(--bg-cover-border)] mb-3.5">
-          <ShieldCheck className="w-8 h-8 text-[var(--bg-paper)]" />
+        <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-lg border border-[var(--bg-cover-border)] mb-3.5">
+          <img src="/logo.png" alt="DreamVault" className="w-full h-full object-cover" />
         </div>
         <h1 className="text-2xl font-bold tracking-wide text-[var(--color-text)]">DreamVault</h1>
         <p className="text-[10px] text-[var(--color-text-muted)] uppercase tracking-widest mt-1">Administrator Portal</p>
