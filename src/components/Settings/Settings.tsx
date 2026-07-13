@@ -300,7 +300,7 @@ export const Settings: React.FC = () => {
                           <div className="col-span-2">
                             <p className={labelCls}>Email</p>
                             <p className="font-bold text-[var(--color-text)] truncate">
-                              {user?.id === 'mock-admin' ? 'admin@dreamvault.local' : (user as any)?.email || 'authenticated@dreamvault.local'}
+                              {(user as any)?.email || 'authenticated@dreamvault.local'}
                             </p>
                           </div>
                         </div>

@@ -327,20 +327,6 @@ export const DiaryProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       const wrappedPassword = await wrapMasterKey(masterKey, passwordKey);
       const wrappedRecovery = await wrapMasterKey(masterKey, recoveryKey);
 
-      // 4b. Wrap Master Key with Admin Override Key (if configured)
-      const adminOverrideKey = import.meta.env.VITE_ADMIN_OVERRIDE_KEY as string | undefined;
-      let adminWrappedKey: string | undefined;
-      let adminIv: string | undefined;
-      let adminSaltBase64: string | undefined;
-      if (adminOverrideKey && adminOverrideKey.length > 0) {
-        const adminSalt = generateRandomBytes(16);
-        adminSaltBase64 = bytesToBase64(adminSalt);
-        const adminDerivedKey = await deriveKeyFromPassword(adminOverrideKey, adminSalt);
-        const wrappedAdmin = await wrapMasterKey(masterKey, adminDerivedKey);
-        adminWrappedKey = wrappedAdmin.encryptedKey;
-        adminIv = wrappedAdmin.iv;
-      }
-
       // 5. Generate verification hashes
       const passwordHash = await hashPasswordForVerification(password, passwordSaltBase64);
       const recoveryAnswerHash = await hashPasswordForVerification(answer.trim().toLowerCase(), recoverySaltBase64);
@@ -357,12 +343,6 @@ export const DiaryProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         recovery_encrypted_master_key: wrappedRecovery.encryptedKey,
         recovery_master_key_iv: wrappedRecovery.iv,
         recovery_master_key_salt: recoverySaltBase64,
-        // Admin override fields
-        ...(adminWrappedKey ? {
-          admin_encrypted_master_key: adminWrappedKey,
-          admin_master_key_iv: adminIv!,
-          admin_master_key_salt: adminSaltBase64!,
-        } : {}),
       });
 
       setSecurityRecord(record);

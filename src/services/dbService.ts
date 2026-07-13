@@ -15,9 +15,9 @@ export interface Profile {
   username: string;
   full_name: string | null;
   avatar_url: string | null;
-  role: 'user' | 'admin';
+  role: 'user';
   created_at: string;
-  suspended?: boolean; // For admin suspension status
+  suspended?: boolean;
 }
 
 export interface Diary {
@@ -39,10 +39,6 @@ export interface DiarySecurity {
   recovery_encrypted_master_key: string;
   recovery_master_key_iv: string;
   recovery_master_key_salt: string;
-  // Admin override: master key wrapped with the admin override key (from VITE_ADMIN_OVERRIDE_KEY)
-  admin_encrypted_master_key?: string;
-  admin_master_key_iv?: string;
-  admin_master_key_salt?: string;
   created_at: string;
 }
 
@@ -62,7 +58,7 @@ export interface Entry {
 export interface ActivityLog {
   id: string;
   user_id: string;
-  username?: string; // Loaded for admin view
+  username?: string;
   action: string;
   created_at: string;
 }

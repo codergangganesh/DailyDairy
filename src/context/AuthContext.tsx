@@ -6,17 +6,16 @@ interface UserSession {
   id: string;
   email: string;
   username: string;
-  role: 'user' | 'admin';
+  role: 'user';
 }
 
 interface AuthContextProps {
   user: Profile | null;
-  role: 'user' | 'admin' | null;
+  role: 'user' | null;
   session: UserSession | null;
   isLoading: boolean;
   signUp: (email: string, password: string, username: string, fullName: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
-  adminLogin: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   verifyEmail: () => Promise<void>;
@@ -33,7 +32,7 @@ const LS_MOCK_SESSION = 'dreamvault_mock_session';
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<Profile | null>(null);
   const [session, setSession] = useState<UserSession | null>(null);
-  const [role, setRole] = useState<'user' | 'admin' | null>(null);
+  const [role, setRole] = useState<'user' | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // Restore session on mount
@@ -343,103 +342,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const adminLogin = async (email: string, password: string) => {
-    setIsLoading(true);
-    try {
-      if (isSupabaseConfigured && supabase) {
-        // Supabase admin login
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: email.toLowerCase(),
-          password,
-        });
-
-        if (error) throw error;
-
-        if (!data.session) {
-          throw new Error('Unable to establish admin session.');
-        }
-
-        const profile = await dbService.getProfile(data.user.id);
-        if (!profile || profile.role !== 'admin') {
-          await supabase.auth.signOut();
-          throw new Error('Not authorized as an admin');
-        }
-
-        const sess: UserSession = {
-          id: data.user.id,
-          email: data.user.email || '',
-          username: profile.username,
-          role: 'admin',
-        };
-
-        setSession(sess);
-        setUser(profile);
-        setRole('admin');
-
-        await dbService.createActivityLog(data.user.id, 'Admin logged in to Dashboard');
-      } else {
-        // Mock Admin Login
-        const users = JSON.parse(localStorage.getItem(LS_MOCK_USERS) || '[]');
-        
-        let matched = users.find(
-          (u: any) => u.email.toLowerCase() === email.toLowerCase() && u.password === password && u.role === 'admin'
-        );
-
-        if (!matched && email.toLowerCase() === 'admin@dreamvault.com' && password === 'admin123') {
-          const adminId = crypto.randomUUID();
-          const newAdmin = {
-            id: adminId,
-            email: 'admin@dreamvault.com',
-            password: 'admin123',
-            username: 'admin',
-            full_name: 'System Administrator',
-            role: 'admin' as const,
-          };
-          users.push(newAdmin);
-          localStorage.setItem(LS_MOCK_USERS, JSON.stringify(users));
-
-          await dbService.createProfile({
-            id: adminId,
-            username: 'admin',
-            full_name: 'System Administrator',
-            avatar_url: 'https://api.dicebear.com/7.x/identicon/svg?seed=admin',
-            role: 'admin',
-          });
-
-          matched = newAdmin;
-        }
-
-        if (!matched) {
-          throw new Error('Invalid admin credentials');
-        }
-
-        const profile = await dbService.getProfile(matched.id);
-        if (!profile || profile.role !== 'admin') {
-          throw new Error('Not authorized as an admin');
-        }
-
-        const sess: UserSession = {
-          id: matched.id,
-          email: matched.email,
-          username: matched.username,
-          role: 'admin',
-        };
-
-        localStorage.setItem(LS_MOCK_SESSION, JSON.stringify(sess));
-        setSession(sess);
-        setUser(profile);
-        setRole('admin');
-
-        await dbService.createActivityLog(matched.id, 'Admin logged in to Dashboard');
-      }
-    } catch (err: any) {
-      setIsLoading(false);
-      throw err;
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const logout = async () => {
     if (session) {
       await dbService.createActivityLog(session.id, 'User logged out');
@@ -584,7 +486,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   return (
     <AuthContext.Provider
-      value={{ user, role, session, isLoading, signUp, login, adminLogin, logout, resetPassword, verifyEmail, updateProfile, uploadAvatar }}
+      value={{ user, role, session, isLoading, signUp, login, logout, resetPassword, verifyEmail, updateProfile, uploadAvatar }}
     >
       {children}
     </AuthContext.Provider>
